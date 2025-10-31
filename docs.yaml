@@ -1,6 +1,12 @@
 
 # List of repositories to aggregate documentation from.
 repositories:
+  - url: "https://github.com/vectordotdev/vector"
+    path: "website/content/en"
+    version: "v0.50.0"
+    skip:
+      - "highlights/*"
+      - "releases/*"
   - url: "https://github.com/VictoriaMetrics/VictoriaMetrics"
     path: "docs"
     skip:
@@ -14,12 +20,10 @@ repositories:
   - url: "https://github.com/terrastruct/d2-docs.git"
     path: "docs"
     skip:
-      - "docs/releases/**"
-      
+      - "releases/**"
   - url: "https://github.com/VictoriaMetrics/VictoriaLogs.git"
     path: "docs/victorialogs"
     version: "v1.37.0"
-
   - url: "https://github.com/nats-io/nats.docs.git"
     path: "."
     skip:
@@ -28,3 +32,4 @@ repositories:
       - "_*"
       - "Makefile"
       - "./*.md"
+      - "docs/gitbook"

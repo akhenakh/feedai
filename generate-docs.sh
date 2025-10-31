@@ -6,6 +6,7 @@ set -e
 set -u
 # Pipe commands should fail if any command in the pipe fails.
 set -o pipefail
+# set -x # Uncomment for debugging
 
 # Configuration
 FCOPY_URL="https://github.com/akhenakh/fcopy/releases/download/v0.1/fcopy_0.1_linux_amd64.tar.gz"
@@ -121,7 +122,12 @@ main() {
   check_deps
 
   local initial_pwd=$(pwd)
-  
+  local ABS_YAML_FILE="$initial_pwd/$YAML_FILE"
+  if [[ ! -f "$ABS_YAML_FILE" ]]; then
+    echo "Error: YAML file not found at '$ABS_YAML_FILE'" >&2
+    exit 1
+  fi
+
   local OUTPUT_DIR="$initial_pwd/docs"
   echo "--- Preparing output directory: $OUTPUT_DIR"
   if [[ "$CLEAN_OUTPUT" == true && -d "$OUTPUT_DIR" ]]; then
@@ -139,7 +145,7 @@ main() {
   setup_fcopy
 
   local repo_count
-  repo_count=$(yq -r '.repositories | length' "$YAML_FILE")
+  repo_count=$(yq -r '.repositories | length' "$ABS_YAML_FILE")
   echo "Found $repo_count repositories to process in '$YAML_FILE'."
 
   local single_output_md=""
@@ -150,14 +156,14 @@ main() {
 
   for i in $(seq 0 $((repo_count - 1))); do
     local repo_url
-    repo_url=$(yq -r ".repositories[$i].url" "$YAML_FILE")
+    repo_url=$(yq -r ".repositories[$i].url" "$ABS_YAML_FILE")
     local repo_doc_path
-    repo_doc_path=$(yq -r ".repositories[$i].path" "$YAML_FILE")
+    repo_doc_path=$(yq -r ".repositories[$i].path" "$ABS_YAML_FILE")
     local repo_name
     repo_name=$(basename "$repo_url" .git)
 
     local repo_version
-    repo_version=$(yq -r ".repositories[$i].version" "$YAML_FILE")
+    repo_version=$(yq -r ".repositories[$i].version" "$ABS_YAML_FILE")
 
     local git_clone_args=("--depth" "1")
     local display_version
@@ -188,15 +194,13 @@ main() {
     cd "$doc_path"
 
     local fcopy_cmd=("$FCOPY_CMD" "-s")
+    
     local skip_patterns
-    skip_patterns=$(yq -r ".repositories[$i].skip[]" "$YAML_FILE" 2>/dev/null || true)
+    skip_patterns=$(yq -r "if .repositories[$i].skip then .repositories[$i].skip | join(\",\") else \"\" end" "$ABS_YAML_FILE")
     
     if [[ -n "$skip_patterns" ]]; then
-        echo "Applying skip patterns:"
-        while IFS= read -r pattern; do
-            echo "  - $pattern"
-            fcopy_cmd+=("-x" "$pattern")
-        done <<< "$skip_patterns"
+        echo "Applying skip patterns: $skip_patterns"
+        fcopy_cmd+=("-x" "$skip_patterns")
     fi
     
     fcopy_cmd+=(".")
