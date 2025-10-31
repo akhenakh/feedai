@@ -1,12 +1,25 @@
 
 # List of repositories to aggregate documentation from.
 repositories:
+  - url: "https://github.com/duckdb/duckdb-web.git"
+    path: "docs/stable"
   - url: "https://github.com/warpstreamlabs/bento.git"
     version: "v1.12.1" # A git tag, branch, or commit hash
     path: "website/docs" # Path to the documentation source
-
   - url: "https://github.com/terrastruct/d2-docs.git"
     path: "docs"
     skip:
       - "docs/releases/**"
       
+  - url: "https://github.com/VictoriaMetrics/VictoriaLogs.git"
+    path: "docs/victorialogs"
+    version: "v1.37.0"
+
+  - url: "https://github.com/nats-io/nats.docs.git"
+    path: "."
+    skip:
+      - "zh-cn"
+      - "legacy"
+      - "_*"
+      - "Makefile"
+      - "./*.md"

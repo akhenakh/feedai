@@ -19,7 +19,7 @@ The generated `.md.zstd` files are designed for a technique called **Retrieval-A
 
 ### How to Use the Generated Files with an LLM
 
-1.  **Find the Right File:** Navigate to the `docs/` directory or the [live documentation browser](https://akhenakh.github.io/akhenakh/) to find the file for the project and version you need (e.g., `bento-v1.12.1.md.zstd`).
+1.  **Find the Right File:** Navigate to the `docs/` directory or the [live documentation browser](https://akhenakh.github.io/feedai/) to find the file for the project and version you need (e.g., `bento-v1.12.1.md.zstd`).
 
 2.  **Download and Decompress:** Download the file and decompress it using the `zstd` command-line tool.
     ```bash
