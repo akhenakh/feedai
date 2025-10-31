@@ -19,31 +19,20 @@ The generated `.md.zstd` files are designed for a technique called **Retrieval-A
 
 ### How to Use the Generated Files with an LLM
 
-1.  **Find the Right File:** Navigate to the `docs/` directory or the [live documentation browser](https://your-username.github.io/your-repo-name/) to find the file for the project and version you need (e.g., `bento-v1.12.1.md.zstd`).
+1.  **Find the Right File:** Navigate to the `docs/` directory or the [live documentation browser](https://akhenakh.github.io/akhenakh/) to find the file for the project and version you need (e.g., `bento-v1.12.1.md.zstd`).
 
 2.  **Download and Decompress:** Download the file and decompress it using the `zstd` command-line tool.
     ```bash
     # This will create a file named bento-v1.12.1.md
     zstd -d docs/bento-v1.12.1.md.zstd
+    # or cat
+    zstdcat - docs/bento-v1.12.1.md.zstd
     ```
 
 3.  **Copy the Content:** Open the resulting `.md` file and copy its entire contents to your clipboard.
 
 4.  **Construct Your LLM Prompt:** In your chat interface (ChatGPT, Claude, etc.), structure your query using the following template. This instructs the model to ignore its internal knowledge and rely solely on the context you provide.
 
-    ```text
-    Please act as an expert on the software documentation I am about to provide. Use ONLY the following context to answer my question. Do not use any of your pre-existing knowledge.
-
-    --- CONTEXT START ---
-
-    [PASTE THE ENTIRE DECOMPRESSED MARKDOWN CONTENT HERE]
-
-    --- CONTEXT END ---
-
-    Based exclusively on the context provided above, please answer this question:
-
-    [YOUR QUESTION HERE, E.G., "How do I configure the streaming API? Provide a code example if possible."]
-    ```
 
 This process ensures you get answers that are accurate, version-specific, and free from hallucinations.
 
