@@ -1,0 +1,42 @@
+name: Generate and Commit Documentation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies (yq, zstd)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y yq zstd curl tar
+
+      - name: Generate Documentation
+        run: |
+          chmod +x ./generate-docs.sh
+          # This command will place all output inside the ./docs/ directory
+          ./generate-docs.sh docs.yaml
+
+      # NEW STEP: Create a manifest file for the webpage
+      - name: Create Web Manifest
+        run: |
+          # List all .md.zstd files, get just the basenames, and format as a JSON array
+          cd docs
+          ls -1 *.md.zstd | jq -R . | jq -s . > manifest.json
+          cd ..
+        # This requires jq, which is pre-installed on GitHub runners
+
+      - name: Commit and Push Documentation
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs: Auto-generate aggregated documentation"
+          file_pattern: "docs/*.md.zstd docs/manifest.json"
+          commit_user_name: "GitHub Actions Bot"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_author: "GitHub Actions Bot <github-actions[bot]@users.noreply.github.com>"
