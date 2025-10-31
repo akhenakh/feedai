@@ -14,7 +14,11 @@ FCOPY_CMD=""
 
 # Usage and Argument Parsing
 usage() {
-  echo "Usage: $0 <yaml_file> [output_filename]"
+  echo "Usage: $0 [options] <yaml_file> [output_filename]"
+  echo
+  echo "Options:"
+  echo "  --no-clean   Do not remove the existing ./docs/ directory before generating files."
+  echo "  -h, --help   Show this help message."
   echo
   echo "Modes:"
   echo "  1. Multi-file (default): $0 <yaml_file>"
@@ -70,7 +74,33 @@ setup_fcopy() {
 }
 
 main() {
-  # Argument Parsing
+  local CLEAN_OUTPUT=true
+  local positional_args=()
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --no-clean)
+        CLEAN_OUTPUT=false
+        shift # past argument
+        ;;
+      -h|--help)
+        usage
+        ;;
+      -*)
+        echo "Error: Unknown option '$1'" >&2
+        usage
+        ;;
+      *)
+        positional_args+=("$1") # save positional arg
+        shift # past argument
+        ;;
+    esac
+  done
+
+  # Restore positional arguments
+  set -- "${positional_args[@]}"
+  
+  # Argument Validation
   local MODE
   local YAML_FILE
   local SINGLE_OUTPUT_FILE=""
@@ -90,15 +120,15 @@ main() {
 
   check_deps
 
-  # NEW: Capture the absolute path of the script's starting directory.
   local initial_pwd=$(pwd)
   
-  # MODIFIED: Define the output directory using the absolute path.
   local OUTPUT_DIR="$initial_pwd/docs"
   echo "--- Preparing output directory: $OUTPUT_DIR"
-  if [[ -d "$OUTPUT_DIR" ]]; then
-    echo "Removing existing output directory."
+  if [[ "$CLEAN_OUTPUT" == true && -d "$OUTPUT_DIR" ]]; then
+    echo "Removing existing output directory (use --no-clean to prevent this)."
     rm -rf "$OUTPUT_DIR"
+  else
+    echo "Ensuring output directory exists (will not clean existing files)."
   fi
   mkdir -p "$OUTPUT_DIR"
 
@@ -114,7 +144,6 @@ main() {
 
   local single_output_md=""
   if [[ "$MODE" == "single" ]]; then
-    # MODIFIED: Create the temporary markdown file with an absolute path too for robustness.
     single_output_md="$initial_pwd/${SINGLE_OUTPUT_FILE%.zstd}"
     : > "$single_output_md" 
   fi
@@ -173,7 +202,6 @@ main() {
     fcopy_cmd+=(".")
 
     if [[ "$MODE" == "multi" ]]; then
-      # MODIFIED: output_zstd path is now absolute, so zstd will find it.
       local output_zstd="$OUTPUT_DIR/${repo_name}-${safe_version}.md.zstd"
       local output_md="$TMP_DIR/${repo_name}-${safe_version}.md"
       
@@ -214,7 +242,6 @@ main() {
     if [[ ! -s "$single_output_md" ]]; then
         echo "Warning: The generated markdown file '$single_output_md' is empty."
     else
-        # MODIFIED: final_file_path is now absolute.
         local final_file_path="$OUTPUT_DIR/$SINGLE_OUTPUT_FILE"
         zstd -f -o "$final_file_path" "$single_output_md"
         rm "$single_output_md"

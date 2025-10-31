@@ -1,6 +1,11 @@
 
 # List of repositories to aggregate documentation from.
 repositories:
+  - url: "https://github.com/VictoriaMetrics/VictoriaMetrics"
+    path: "docs"
+    skip:
+      - "Makefile"
+    version: "v1.128.0"
   - url: "https://github.com/duckdb/duckdb-web.git"
     path: "docs/stable"
   - url: "https://github.com/warpstreamlabs/bento.git"

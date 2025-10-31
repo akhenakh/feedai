@@ -36,44 +36,7 @@ The generated `.md.zstd` files are designed for a technique called **Retrieval-A
 
 This process ensures you get answers that are accurate, version-specific, and free from hallucinations.
 
-## How It Works
 
-The automation is powered by a `generate-docs.sh` script and a GitHub Action.
+## License
 
-1.  **Configuration:** A `docs.yaml` file lists the Git repositories, versions, and paths to the documentation.
-2.  **Execution:** On a push to the `main` branch, a GitHub Action triggers.
-3.  **Cloning:** The script clones each repository at the specified version (or the default branch if no version is given).
-4.  **Aggregation:** It uses the `fcopy` utility to concatenate all relevant markdown files from the specified documentation path into a single file, respecting any `skip` patterns.
-5.  **Compression:** The resulting massive markdown file is compressed using `zstd` for efficient storage.
-6.  **Webpage Manifest:** It generates a `manifest.json` file, which lists all the available documentation archives for the web viewer.
-7.  **Commit:** The action automatically commits the new or updated files in the `docs/` directory back to the repository.
-
-## Configuration (`docs.yaml`)
-
-The `docs.yaml` file drives the entire process.
-
-```yaml
-repositories:
-  - url: "https://github.com/my-org/my-project.git"
-    version: "v2.5.1"
-    path: "docs/source" # Path to the documentation source
-    skip:
-      - "**/_index.md" # Glob patterns to skip
-
-  - url: "https://github.com/another-org/another-repo.git"
-    # No version specified: will clone the default branch
-    # and name the output file with '-main.md.zstd'
-    path: "documentation"
-```
-
-## Manual Usage
-
-You can also run the script locally.
-
-```bash
-# Generate one file per repository entry in ./docs/
-./generate-docs.sh docs.yaml
-
-# Aggregate all entries into a single file in ./docs/
-./generate-docs.sh docs.yaml all-docs-aggregated.md.zstd
-```
+The licenses for the documentation packs are to be found in the respective repositories.
