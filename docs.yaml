@@ -3,6 +3,7 @@
 repositories:
   - url: "https://github.com/maplibre/maplibre-gl-js"
     path: "docs"
+    version: "v5.12.0"
   - url: "https://github.com/oven-sh/bun"
     path: "docs"
     skip:
@@ -11,6 +12,7 @@ repositories:
       - "images"
       - "logo"
       - "icons"
+    version: "bun-v1.3.2"
   - url: "https://github.com/helix-editor/helix"
     path: "/book/src"
     version: "25.07.1"
