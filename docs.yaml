@@ -1,16 +1,32 @@
 
 # List of repositories to aggregate documentation from.
 repositories:
+  - url: "https://github.com/maplibre/maplibre-gl-js"
+    path: "docs"
+  - url: "https://github.com/oven-sh/bun"
+    path: "docs"
+    skip:
+      - "style.css"
+      - "normalize-internal-links.js"
+      - "images"
+      - "logo"
+      - "icons"
+  - url: "https://github.com/helix-editor/helix"
+    path: "/book/src"
+    version: "25.07.1"
   - url: "https://github.com/vectordotdev/vector"
     path: "website/content/en"
     version: "v0.50.0"
     skip:
       - "highlights/*"
-      - "releases/*"
+      - "releases/**"
   - url: "https://github.com/VictoriaMetrics/VictoriaMetrics"
     path: "docs"
     skip:
       - "Makefile"
+      - "victoriametrics/changelog/**"
+      - "anomaly-detection/**"
+      - "*.svg"
     version: "v1.128.0"
   - url: "https://github.com/duckdb/duckdb-web.git"
     path: "docs/stable"
