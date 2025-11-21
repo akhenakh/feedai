@@ -1,6 +1,12 @@
 
 # List of repositories to aggregate documentation from.
 repositories:
+  - url: "https://github.com/caddyserver/website"
+    path: "src/docs/markdown"
+    rename: "caddy"
+  - url: "https://github.com/mermaid-js/mermaid/"
+    path: "docs"
+    version: "mermaid@11.12.1"
   - url: "https://github.com/maplibre/maplibre-gl-js"
     path: "docs"
     version: "v5.12.0"

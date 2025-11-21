@@ -25,7 +25,7 @@ usage() {
   echo "  1. Multi-file (default): $0 <yaml_file>"
   echo "     Generates one compressed file per repository defined in the YAML."
   echo "     All output is placed in the ./docs/ directory."
-  echo "     Output format: docs/{repo_name}-{version}.md.zstd"
+  echo "     Output format: docs/{repo_name_or_rename}-{version}.md.zstd"
   echo
   echo "  2. Single-file (aggregate): $0 <yaml_file> <output_filename>"
   echo "     Combines all documentation into a single compressed file in ./docs/."
@@ -162,6 +162,17 @@ main() {
     local repo_name
     repo_name=$(basename "$repo_url" .git)
 
+    # Determine the output filename prefix (rename > repo_name)
+    local repo_rename
+    repo_rename=$(yq -r ".repositories[$i].rename" "$ABS_YAML_FILE")
+    
+    local output_prefix
+    if [[ "$repo_rename" != "null" && -n "$repo_rename" ]]; then
+        output_prefix="$repo_rename"
+    else
+        output_prefix="$repo_name"
+    fi
+
     local repo_version
     repo_version=$(yq -r ".repositories[$i].version" "$ABS_YAML_FILE")
 
@@ -180,7 +191,7 @@ main() {
     fi
 
     echo ""
-    echo "--- Processing repository: $repo_name (version: $display_version)"
+    echo "--- Processing repository: $repo_name (Output as: $output_prefix)"
 
     local clone_path="$TMP_DIR/$repo_name"
     echo "Cloning $repo_url..."
@@ -206,8 +217,9 @@ main() {
     fcopy_cmd+=(".")
 
     if [[ "$MODE" == "multi" ]]; then
-      local output_zstd="$OUTPUT_DIR/${repo_name}-${safe_version}.md.zstd"
-      local output_md="$TMP_DIR/${repo_name}-${safe_version}.md"
+      # Use the output_prefix derived from the rename field or basename
+      local output_zstd="$OUTPUT_DIR/${output_prefix}-${safe_version}.md.zstd"
+      local output_md="$TMP_DIR/${output_prefix}-${safe_version}.md"
       
       echo "Generating individual file: $output_zstd"
       
@@ -225,7 +237,7 @@ main() {
     elif [[ "$MODE" == "single" ]]; then
       echo "Appending to aggregate file: $single_output_md"
       {
-        echo "# Documentation from ${repo_name} @ ${display_version}"
+        echo "# Documentation from ${output_prefix} (${repo_name}) @ ${display_version}"
         echo ""
         echo "Source Path: \`$repo_doc_path\`"
         echo ""
