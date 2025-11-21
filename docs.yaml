@@ -1,6 +1,12 @@
 
 # List of repositories to aggregate documentation from.
 repositories:
+  - url: "https://github.com/golang/website"
+    path: "_content/doc"
+    rename: golang
+    skip:
+      - "devel/release.html"
+      - "go1*.md"
   - url: "https://github.com/envoyproxy/envoy"
     path: "/docs/root"
     version: v1.36.2
