@@ -1,6 +1,9 @@
 
 # List of repositories to aggregate documentation from.
 repositories:
+  - url: "https://github.com/envoyproxy/envoy"
+    path: "/docs/root"
+    version: v1.36.2
   - url: "https://github.com/envoyproxy/gateway"
     path: "/site/content/en/latest"
     version: v1.6.0

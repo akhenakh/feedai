@@ -9,7 +9,7 @@ set -o pipefail
 # set -x # Uncomment for debugging
 
 # Configuration
-FCOPY_URL="https://github.com/akhenakh/fcopy/releases/download/v0.1/fcopy_0.1_linux_amd64.tar.gz"
+FCOPY_URL="https://github.com/akhenakh/fcopy/releases/download/v0.2/fcopy_0.1_linux_amd64.tar.gz"
 # This will hold the path to the fcopy executable
 FCOPY_CMD=""
 
