@@ -1,6 +1,9 @@
 
 # List of repositories to aggregate documentation from.
 repositories:
+  - url: "https://github.com/envoyproxy/gateway"
+    path: "/site/content/en/latest"
+    version: v1.6.0
   - url: "https://github.com/caddyserver/website"
     path: "src/docs/markdown"
     rename: "caddy"
