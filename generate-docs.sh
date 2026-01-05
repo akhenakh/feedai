@@ -193,7 +193,10 @@ main() {
     echo ""
     echo "--- Processing repository: $repo_name (Output as: $output_prefix)"
 
-    local clone_path="$TMP_DIR/$repo_name"
+    # Append the unique index ${i} to the directory name to prevent collisions
+    # if multiple repos have the same basename (e.g. 'website').
+    local clone_path="$TMP_DIR/${repo_name}-${i}"
+
     echo "Cloning $repo_url..."
     git clone "${git_clone_args[@]}" "$repo_url" "$clone_path"
 
