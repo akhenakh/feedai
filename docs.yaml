@@ -1,6 +1,25 @@
 
 # List of repositories to aggregate documentation from.
 repositories:
+  - url: https://github.com/casbin/casbin-website-v3
+    path: content/docs
+  - url: https://github.com/nushell/nushell.github.io
+    path: "."
+    skip:
+      - de
+      - es
+      - fr
+      - ja
+      - ko
+      - lang-guide
+      - pt-BR
+      - ru
+      - tr
+      - tools
+      - assets
+      - zh-CN
+      - commands
+      - blog
   - url: "https://github.com/golang/website"
     path: "_content/doc"
     rename: golang
