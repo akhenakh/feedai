@@ -28,10 +28,10 @@ repositories:
       - "go1*.md"
   - url: "https://github.com/envoyproxy/envoy"
     path: "/docs/root"
-    version: v1.36.2
+    version: v1.37.0
   - url: "https://github.com/envoyproxy/gateway"
     path: "/site/content/en/latest"
-    version: v1.6.0
+    version: v1.6.3
   - url: "https://github.com/caddyserver/website"
     path: "src/docs/markdown"
     rename: "caddy"
@@ -49,13 +49,13 @@ repositories:
       - "images"
       - "logo"
       - "icons"
-    version: "bun-v1.3.2"
+    version: "bun-v1.3.8"
   - url: "https://github.com/helix-editor/helix"
     path: "/book/src"
     version: "25.07.1"
   - url: "https://github.com/vectordotdev/vector"
     path: "website/content/en"
-    version: "v0.50.0"
+    version: "v0.53.0"
     skip:
       - "highlights/*"
       - "releases/**"
@@ -66,11 +66,14 @@ repositories:
       - "victoriametrics/changelog/**"
       - "anomaly-detection/**"
       - "*.svg"
-    version: "v1.128.0"
+    version: "v1.135.0"
+  - url: "https://github.com/VictoriaMetrics/VictoriaTraces"
+    path: "docs/victoriatraces"
+    version: "v0.7.1"
   - url: "https://github.com/duckdb/duckdb-web.git"
     path: "docs/stable"
   - url: "https://github.com/warpstreamlabs/bento.git"
-    version: "v1.12.1" # A git tag, branch, or commit hash
+    version: "v1.14.1" # A git tag, branch, or commit hash
     path: "website/docs" # Path to the documentation source
   - url: "https://github.com/terrastruct/d2-docs.git"
     path: "docs"
@@ -78,7 +81,7 @@ repositories:
       - "releases/**"
   - url: "https://github.com/VictoriaMetrics/VictoriaLogs.git"
     path: "docs/victorialogs"
-    version: "v1.37.0"
+    version: "v1.44.0"
   - url: "https://github.com/nats-io/nats.docs.git"
     path: "."
     skip:
