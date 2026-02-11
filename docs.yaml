@@ -1,6 +1,19 @@
 
 # List of repositories to aggregate documentation from.
 repositories:
+  - url: https://github.com/akuity/kargo
+    path: /docs/docs
+    skip:
+      - 80-release-notes
+  - url: https://github.com/wailsapp/wails
+    path: website/docs
+  - url: https://github.com/honojs/website
+    skip:
+      - "public"
+      - "scripts"
+      - "bun.lock"
+    path: "/"
+    rename: honojs
   - url: https://github.com/casbin/casbin-website-v3
     path: content/docs
   - url: https://github.com/nushell/nushell.github.io
