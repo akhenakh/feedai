@@ -1,6 +1,24 @@
 
 # List of repositories to aggregate documentation from.
 repositories:
+  - url: https://github.com/argoproj/argo-cd
+    path: /docs
+    skip:
+      - proposals/*
+      - snyk/*
+      - assets/*
+  - url: "https://github.com/nats-io/nats.docs.git"
+    path: "."
+    skip:
+      - "zh-cn"
+      - "legacy"
+      - "_*"
+      - "Makefile"
+      - "./*.md"
+      - "docs/gitbook"
+      - "LICENSE"
+      - "*svg"
+      - "docs/*"
   - url: https://github.com/google/docsy
     path: docsy.dev/content/en/docs
   - url: https://github.com/PRQL/prql
@@ -11,6 +29,7 @@ repositories:
     path: /docs/docs
     skip:
       - 80-release-notes
+
   - url: https://github.com/wailsapp/wails
     path: website/docs
   - url: https://github.com/honojs/website
@@ -101,12 +120,3 @@ repositories:
   - url: "https://github.com/VictoriaMetrics/VictoriaLogs.git"
     path: "docs/victorialogs"
     version: "v1.44.0"
-  - url: "https://github.com/nats-io/nats.docs.git"
-    path: "."
-    skip:
-      - "zh-cn"
-      - "legacy"
-      - "_*"
-      - "Makefile"
-      - "./*.md"
-      - "docs/gitbook"
